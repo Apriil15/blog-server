@@ -25,6 +25,10 @@ func init() {
 
 }
 
+// @title Blog System
+// @version 1.0
+// @description This is a practice project for Golang Web backend development.
+// @termsOfService https://github.com/Apriil15/blog-server
 func main() {
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
