@@ -1,13 +1,17 @@
 package routers
 
 import (
+	_ "github.com/Apriil15/blog-server/docs"
 	v1 "github.com/Apriil15/blog-server/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	article := v1.NewArticle()
 	tag := v1.NewTag()
