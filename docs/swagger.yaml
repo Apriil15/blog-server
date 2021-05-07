@@ -1,0 +1,363 @@
+definitions:
+  errcode.Error:
+    type: object
+  model.Tag:
+    properties:
+      created_On:
+        type: integer
+      created_by:
+        type: string
+      deleted_on:
+        type: integer
+      id:
+        type: integer
+      is_del:
+        type: integer
+      modified_by:
+        type: string
+      modified_on:
+        type: integer
+      name:
+        type: string
+      state:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: This is a practice project for Golang Web backend development.
+  termsOfService: https://github.com/Apriil15/blog-server
+  title: Blog System
+  version: "1.0"
+paths:
+  /api/v1/articles:
+    post:
+      parameters:
+      - description: 文章標題
+        in: body
+        maxLength: 100
+        minLength: 1
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: 文章簡述
+        in: body
+        maxLength: 100
+        minLength: 1
+        name: desc
+        required: true
+        schema:
+          type: string
+      - description: 文章內容
+        in: body
+        maxLength: 1000
+        minLength: 1
+        name: content
+        required: true
+        schema:
+          type: string
+      - description: 封面圖片網址
+        in: body
+        maxLength: 100
+        minLength: 1
+        name: cover_image_url
+        schema:
+          type: string
+      - default: 1
+        description: 狀態
+        in: body
+        name: state
+        schema:
+          type: integer
+      - description: 建立者
+        in: body
+        maxLength: 100
+        minLength: 3
+        name: created_by
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Tag'
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 新增文章
+  /api/v1/articles/{id}:
+    delete:
+      parameters:
+      - description: 文章 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Tag'
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 刪除文章
+    get:
+      parameters:
+      - description: 文章 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Tag'
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 取得特定文章
+    put:
+      parameters:
+      - description: 文章 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 文章標題
+        in: body
+        maxLength: 100
+        minLength: 1
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: 文章簡述
+        in: body
+        maxLength: 100
+        minLength: 1
+        name: desc
+        required: true
+        schema:
+          type: string
+      - description: 文章內容
+        in: body
+        maxLength: 1000
+        minLength: 1
+        name: content
+        required: true
+        schema:
+          type: string
+      - description: 封面圖片網址
+        in: body
+        maxLength: 100
+        minLength: 1
+        name: cover_image_url
+        schema:
+          type: string
+      - default: 1
+        description: 狀態
+        in: body
+        name: state
+        schema:
+          type: integer
+      - description: 修改者
+        in: body
+        maxLength: 100
+        minLength: 3
+        name: modified_by
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            items:
+              $ref: '#/definitions/model.Tag'
+            type: array
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 更新文章
+  /api/v1/tags:
+    get:
+      parameters:
+      - description: 標籤名稱
+        in: query
+        maxLength: 100
+        name: name
+        type: string
+      - default: 1
+        description: 狀態
+        enum:
+        - 0
+        - 1
+        in: query
+        name: state
+        type: integer
+      - description: 頁碼
+        in: query
+        name: page
+        type: integer
+      - description: 每頁數量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Tag'
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 取得多個標籤
+    post:
+      parameters:
+      - description: 標籤名稱
+        in: body
+        maxLength: 100
+        minLength: 3
+        name: name
+        required: true
+        schema:
+          type: string
+      - default: 1
+        description: 狀態
+        in: body
+        name: state
+        schema:
+          type: integer
+      - description: 建立者
+        in: body
+        maxLength: 100
+        minLength: 3
+        name: created_by
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Tag'
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 新增標籤
+  /api/v1/tags/{id}:
+    delete:
+      parameters:
+      - description: 標籤 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            type: string
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 刪除標籤
+    put:
+      parameters:
+      - description: 標籤 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 標籤名稱
+        in: body
+        maxLength: 100
+        minLength: 3
+        name: name
+        schema:
+          type: string
+      - default: 1
+        description: 狀態
+        in: body
+        name: state
+        schema:
+          type: integer
+      - description: 修改者
+        in: body
+        maxLength: 100
+        minLength: 3
+        name: modified_by
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            items:
+              $ref: '#/definitions/model.Tag'
+            type: array
+        "400":
+          description: 請求錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 內部錯誤
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 更新標籤
+swagger: "2.0"
