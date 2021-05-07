@@ -17,7 +17,7 @@ func NewArticle() Article {
 // @Param cover_image_url body string false "封面圖片網址" minlength(1) maxlength(100)
 // @Param state body int false "狀態" Enum(0, 1) default(1)
 // @Param created_by body string true "建立者" minlength(3) maxlength(100)
-// @Success 200 {object} model.Tag "成功"
+// @Success 200 {object} model.ArticleSwagger "成功"
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/articles [post]
@@ -26,7 +26,7 @@ func (a Article) Create(c *gin.Context) {}
 // @Summary 刪除文章
 // @Produce json
 // @Param id path int true "文章 ID"
-// @Success 200 {object} model.Tag "成功"
+// @Success 200 {string} string "成功"
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/articles/{id} [delete]
@@ -41,7 +41,7 @@ func (a Article) Delete(c *gin.Context) {}
 // @Param cover_image_url body string false "封面圖片網址" minlength(1) maxlength(100)
 // @Param state body int false "狀態" Enum(0, 1) default(1)
 // @Param modified_by body string true "修改者" minlength(3) maxlength(100)
-// @Success 200 {array} model.Tag "成功"
+// @Success 200 {array} model.ArticleSwagger "成功"
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/articles/{id} [put]
@@ -50,7 +50,7 @@ func (a Article) Update(c *gin.Context) {}
 // @Summary 取得特定文章
 // @Produce json
 // @Param id path int true "文章 ID"
-// @Success 200 {object} model.Tag "成功"
+// @Success 200 {object} model.ArticleSwagger "成功"
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/articles/{id} [get]
