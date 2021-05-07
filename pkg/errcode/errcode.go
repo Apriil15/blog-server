@@ -5,12 +5,14 @@ import (
 	"net/http"
 )
 
+// custom error struct
 type Error struct {
 	code    int      `json:"code"`
 	msg     string   `json:"msg"`
 	details []string `json:"details"`
 }
 
+// codes is a map used to check whether custom code is duplicated
 var codes = map[int]string{}
 
 func NewError(code int, msg string) *Error {
@@ -49,6 +51,7 @@ func (e *Error) WithDetails(details ...string) *Error {
 	return &newError
 }
 
+// turn custom code into http status code
 func (e *Error) StatusCode() int {
 	switch e.Code() {
 	case Success.Code():

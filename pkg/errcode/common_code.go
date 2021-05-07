@@ -1,5 +1,6 @@
 package errcode
 
+// a collection for managing custom Error struct
 var (
 	Success                   = NewError(0, "成功")
 	ServerError               = NewError(10000000, "服務內部錯誤")

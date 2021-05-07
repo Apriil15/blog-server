@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
+// base struct for model.Article, model.Tag
 type Model struct {
 	ID         uint32 `gorm:"primary_key" json:"id"`
 	CreatedOn  uint32 `json:"created_On"`

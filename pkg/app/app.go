@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// a custom struct for response
 type Response struct {
 	Ctx *gin.Context
 }
