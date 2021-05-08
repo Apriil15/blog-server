@@ -3,6 +3,7 @@ package v1
 import (
 	"github.com/Apriil15/blog-server/internal/service"
 	"github.com/Apriil15/blog-server/pkg/app"
+	"github.com/Apriil15/blog-server/pkg/convert"
 	"github.com/Apriil15/blog-server/pkg/errcode"
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +24,26 @@ func NewTag() Tag {
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/tags [post]
-func (t Tag) Create(c *gin.Context) {}
+func (t Tag) Create(c *gin.Context) {
+	param := service.CreateTagRequest{}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errRsp)
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	err := svc.CreateTag(&param)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorCreateTagFail)
+		return
+	}
+
+	response.ToResponse(gin.H{})
+}
 
 // @Summary 刪除標籤
 // @Produce json
@@ -32,7 +52,28 @@ func (t Tag) Create(c *gin.Context) {}
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/tags/{id} [delete]
-func (t Tag) Delete(c *gin.Context) {}
+func (t Tag) Delete(c *gin.Context) {
+	param := service.DeleteTagRequest{
+		ID: convert.StrTo(c.Param("id")).MustInt32(),
+	}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errRsp)
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	err := svc.DeleteTag(&param)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteTagFail)
+		return
+	}
+
+	response.ToResponse(gin.H{})
+}
 
 // @Summary 更新標籤
 // @Produce json
@@ -44,7 +85,28 @@ func (t Tag) Delete(c *gin.Context) {}
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/tags/{id} [put]
-func (t Tag) Update(c *gin.Context) {}
+func (t Tag) Update(c *gin.Context) {
+	param := service.UpdateTagRequest{
+		ID: convert.StrTo(c.Param("id")).MustInt32(),
+	}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errRsp)
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	err := svc.UpdateTag(&param)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorUpdateTagFail)
+		return
+	}
+
+	response.ToResponse(gin.H{})
+}
 
 func (t Tag) Get(c *gin.Context) {}
 
@@ -70,5 +132,19 @@ func (t Tag) List(c *gin.Context) {
 		return
 	}
 
-	response.ToResponse(gin.H{})
+	svc := service.New(c.Request.Context())
+	pager := app.Pager{Page: app.GetPage(c), PageSize: app.GetPageSize(c)}
+	totalRows, err := svc.CountTag(&service.CountTagRequest{Name: param.Name, State: param.State})
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorCountTagFail)
+		return
+	}
+
+	tags, err := svc.GetTagList(&param, &pager)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorCountTagFail)
+		return
+	}
+
+	response.ToResponseList(tags, int(totalRows))
 }
