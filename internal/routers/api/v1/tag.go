@@ -1,6 +1,11 @@
 package v1
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Apriil15/blog-server/internal/service"
+	"github.com/Apriil15/blog-server/pkg/app"
+	"github.com/Apriil15/blog-server/pkg/errcode"
+	"github.com/gin-gonic/gin"
+)
 
 type Tag struct {
 }
@@ -53,4 +58,17 @@ func (t Tag) Get(c *gin.Context) {}
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/tags [get]
-func (t Tag) List(c *gin.Context) {}
+func (t Tag) List(c *gin.Context) {
+	param := service.TagListRequest{}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		//fmt.Printf("app.BindAndValid errs: %v", errs)
+		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errRsp)
+		return
+	}
+
+	response.ToResponse(gin.H{})
+}
