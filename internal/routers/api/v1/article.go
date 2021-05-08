@@ -35,9 +35,9 @@ func (a Article) Delete(c *gin.Context) {}
 // @Summary 更新文章
 // @Produce json
 // @Param id path int true "文章 ID"
-// @Param title body string true "文章標題" minlength(1) maxlength(100)
-// @Param desc body string true "文章簡述" minlength(1) maxlength(100)
-// @Param content body string true "文章內容" minlength(1) maxlength(1000)
+// @Param title body string false "文章標題" minlength(1) maxlength(100)
+// @Param desc body string false "文章簡述" minlength(1) maxlength(100)
+// @Param content body string false "文章內容" minlength(1) maxlength(1000)
 // @Param cover_image_url body string false "封面圖片網址" minlength(1) maxlength(100)
 // @Param state body int false "狀態" Enum(0, 1) default(1)
 // @Param modified_by body string true "修改者" minlength(3) maxlength(100)
