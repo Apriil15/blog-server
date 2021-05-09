@@ -61,7 +61,16 @@ func (t Tag) Create(db *gorm.DB) error {
 }
 
 func (t Tag) Update(db *gorm.DB) error {
-	return db.Model(&Tag{}).Where("id = ? AND is_del = ?", t.ID, 0).Updates(&t).Error
+	values := map[string]interface{}{
+		"state":       t.State,
+		"modified_by": t.ModifiedBy,
+		"modified_on": t.ModifiedOn,
+	}
+	if t.Name != "" {
+		values["name"] = t.Name
+	}
+
+	return db.Model(&t).Where("is_del = ?", 0).Updates(values).Error
 }
 
 func (t Tag) Delete(db *gorm.DB) error {
