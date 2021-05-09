@@ -1,6 +1,6 @@
 package service
 
-import "errors"
+import "fmt"
 
 type AuthRequest struct {
 	AppKey    string `form:"app_key" binding:"reuqired"`
@@ -16,5 +16,5 @@ func (svc *Service) CheckAuth(param *AuthRequest) error {
 		return nil
 	}
 
-	return errors.New("auth info doesn't exist.")
+	return fmt.Errorf("auth info doesn't exist: %s", err.Error())
 }
