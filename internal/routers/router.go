@@ -14,6 +14,7 @@ func NewRouter() *gin.Engine {
 	r.Use(gin.Logger(), gin.Recovery())
 	r.Use(middleware.Translations())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/auth", v1.GetAuth)
 
 	article := v1.NewArticle()
 	tag := v1.NewTag()
