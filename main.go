@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -69,8 +68,6 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(global.JWTSetting)
 
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
