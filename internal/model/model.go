@@ -13,7 +13,7 @@ import (
 
 // base struct for model.Article, model.Tag
 type Model struct {
-	ID         uint32 `gorm:"primary_key" json:"id"`
+	ID         uint32 `gorm:"primaryKey" json:"id"`
 	CreatedOn  uint32 `json:"created_On"`
 	CreatedBy  string `json:"created_by"`
 	ModifiedOn uint32 `json:"modified_on"`
