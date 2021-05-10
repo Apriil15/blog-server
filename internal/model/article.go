@@ -1,6 +1,9 @@
 package model
 
-import "github.com/Apriil15/blog-server/pkg/app"
+import (
+	"github.com/Apriil15/blog-server/pkg/app"
+	"gorm.io/gorm"
+)
 
 type Article struct {
 	*Model
@@ -19,4 +22,9 @@ type ArticleSwagger struct {
 
 func (a *Article) TableName() string {
 	return "blog_article"
+}
+
+func (a *Article) Create(db *gorm.DB) error {
+
+	return db.Create(&a).Error
 }

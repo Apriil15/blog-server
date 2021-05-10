@@ -1,6 +1,11 @@
 package v1
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Apriil15/blog-server/internal/service"
+	"github.com/Apriil15/blog-server/pkg/app"
+	"github.com/Apriil15/blog-server/pkg/errcode"
+	"github.com/gin-gonic/gin"
+)
 
 type Article struct {
 }
@@ -21,7 +26,27 @@ func NewArticle() Article {
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/articles [post]
-func (a Article) Create(c *gin.Context) {}
+func (a Article) Create(c *gin.Context) {
+	param := service.CreateArticleRequest{}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		errorResponse := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errorResponse)
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	err := svc.CreateArticle(&param)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorCreateTagFail)
+		return
+	}
+
+	response.ToResponse(gin.H{})
+
+}
 
 // @Summary 刪除文章
 // @Produce json
