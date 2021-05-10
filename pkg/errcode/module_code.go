@@ -8,3 +8,12 @@ var (
 	ErrorDeleteTagFail  = NewError(20010004, "刪除標籤失敗")
 	ErrorCountTagFail   = NewError(20010005, "統計標籤失敗")
 )
+
+// a collection for handling article error
+var (
+	ErrorGetArticleListFail = NewError(30010001, "取得文章列表失敗")
+	ErrorCreateArticleFail  = NewError(30010002, "建立文章失敗")
+	ErrorUpdateArticleFail  = NewError(30010003, "更新文章失敗")
+	ErrorDeleteArticleFail  = NewError(30010004, "刪除文章失敗")
+	ErrorCountArticleFail   = NewError(30010005, "統計文章失敗")
+)
