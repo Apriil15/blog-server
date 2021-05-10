@@ -40,7 +40,7 @@ func (a Article) Create(c *gin.Context) {
 	svc := service.New(c.Request.Context())
 	err := svc.CreateArticle(&param)
 	if err != nil {
-		response.ToErrorResponse(errcode.ErrorCreateTagFail)
+		response.ToErrorResponse(errcode.ErrorCreateArticleFail)
 		return
 	}
 
