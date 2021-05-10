@@ -33,7 +33,7 @@ func (v ValidErrors) Errors() []string {
 	return errs
 }
 
-// check whether params is valid
+// Binding context and check whether param is valid
 func BindAndValid(c *gin.Context, v interface{}) (bool, ValidErrors) {
 	var errs ValidErrors
 
