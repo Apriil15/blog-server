@@ -19,22 +19,22 @@ func NewRouter() *gin.Engine {
 	article := v1.NewArticle()
 	tag := v1.NewTag()
 
-	apiv1 := r.Group("api/v1")
+	api := r.Group("api/v1")
 	{
-		apiv1.Use(middleware.JWT())
+		api.Use(middleware.JWT())
 
-		apiv1.POST("tags", tag.Create)
-		apiv1.DELETE("tags/:id", tag.Delete)
-		apiv1.PUT("tags/:id", tag.Update)
-		apiv1.PATCH("tags/:id/state", tag.Update)
-		apiv1.GET("tags", tag.List)
+		api.POST("tags", tag.Create)
+		api.DELETE("tags/:id", tag.Delete)
+		api.PUT("tags/:id", tag.Update)
+		api.PATCH("tags/:id/state", tag.Update)
+		api.GET("tags", tag.List)
 
-		apiv1.POST("articles", article.Create)
-		apiv1.DELETE("articles/:id", article.Delete)
-		apiv1.PUT("articles/:id", article.Update)
-		apiv1.PATCH("articles/:id/state", article.Update)
-		apiv1.GET("articles/:id", article.Get)
-		apiv1.GET("articles", article.List)
+		api.POST("articles", article.Create)
+		api.DELETE("articles/:id", article.Delete)
+		api.PUT("articles/:id", article.Update)
+		api.PATCH("articles/:id/state", article.Update)
+		api.GET("articles/:id", article.Get)
+		api.GET("articles", article.List)
 	}
 
 	return r
