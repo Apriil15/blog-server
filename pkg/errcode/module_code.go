@@ -1,6 +1,6 @@
 package errcode
 
-// a collction for handling tag error
+// a collection for handling tag error
 var (
 	ErrorGetTagListFail = NewError(20010001, "取得標籤列表失敗")
 	ErrorCreateTagFail  = NewError(20010002, "建立標籤失敗")
