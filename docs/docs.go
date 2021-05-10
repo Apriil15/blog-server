@@ -173,7 +173,6 @@ var doc = `{
                         "description": "文章標題",
                         "name": "title",
                         "in": "body",
-                        "required": true,
                         "schema": {
                             "type": "string"
                         }
@@ -184,7 +183,6 @@ var doc = `{
                         "description": "文章簡述",
                         "name": "desc",
                         "in": "body",
-                        "required": true,
                         "schema": {
                             "type": "string"
                         }
@@ -195,7 +193,6 @@ var doc = `{
                         "description": "文章內容",
                         "name": "content",
                         "in": "body",
-                        "required": true,
                         "schema": {
                             "type": "string"
                         }
