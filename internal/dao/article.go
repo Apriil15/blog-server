@@ -23,3 +23,11 @@ func (d *Dao) CreateArticle(title string, desc string, content string, coverImag
 	}
 	return article.Create(d.engine)
 }
+
+// Delete an article
+func (d *Dao) DeleteArticle(id uint32) error {
+	article := model.Article{
+		Model: &model.Model{ID: id},
+	}
+	return article.Delete(d.engine)
+}

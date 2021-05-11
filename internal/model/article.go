@@ -28,3 +28,8 @@ func (a *Article) Create(db *gorm.DB) error {
 
 	return db.Create(&a).Error
 }
+
+// Delete an article
+func (a *Article) Delete(db *gorm.DB) error {
+	return db.Where("is_del = ?", 0).Delete(&a).Error
+}

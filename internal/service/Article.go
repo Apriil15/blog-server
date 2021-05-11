@@ -36,3 +36,8 @@ type DeleteArticleRequest struct {
 func (s *Service) CreateArticle(param *CreateArticleRequest) error {
 	return s.dao.CreateArticle(param.Title, param.Desc, param.Content, param.CoverImageUrl, param.State, param.CreatedBy)
 }
+
+// Delete an article
+func (s *Service) DeleteArticle(param *DeleteArticleRequest) error {
+	return s.dao.DeleteArticle(param.ID)
+}

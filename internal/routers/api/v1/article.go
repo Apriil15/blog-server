@@ -3,6 +3,7 @@ package v1
 import (
 	"github.com/Apriil15/blog-server/internal/service"
 	"github.com/Apriil15/blog-server/pkg/app"
+	"github.com/Apriil15/blog-server/pkg/convert"
 	"github.com/Apriil15/blog-server/pkg/errcode"
 	"github.com/gin-gonic/gin"
 )
@@ -55,7 +56,28 @@ func (a Article) Create(c *gin.Context) {
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/articles/{id} [delete]
-func (a Article) Delete(c *gin.Context) {}
+func (a Article) Delete(c *gin.Context) {
+	param := service.DeleteArticleRequest{
+		ID: convert.StrTo(c.Param("id")).MustInt32(),
+	}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errRsp)
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	err := svc.DeleteArticle(&param)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteArticleFail)
+		return
+	}
+
+	response.ToResponse(gin.H{})
+}
 
 // @Summary 更新文章
 // @Produce json
