@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/Apriil15/blog-server/internal/model"
+	"github.com/Apriil15/blog-server/pkg/app"
 )
 
 func (d *Dao) CreateArticle(title string, desc string, content string, coverImageUrl string, state uint8, createdBy string) error {
@@ -47,4 +48,21 @@ func (d *Dao) DeleteArticle(id uint32) error {
 		Model: &model.Model{ID: id},
 	}
 	return article.Delete(d.engine)
+}
+
+// Get articles
+func (d *Dao) GetArticles(title string, state uint8, page, pageSize int) ([]*model.Article, error) {
+	articles := model.Article{
+		Title: title,
+		State: state,
+	}
+	pageOffset := app.GetPageOffset(page, pageSize)
+
+	return articles.List(d.engine, pageOffset, pageSize)
+}
+
+// Get article count
+func (d *Dao) CountArticle(title string, state uint8) (int64, error) {
+	article := model.Article{Title: title, State: state}
+	return article.Count(d.engine)
 }

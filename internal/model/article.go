@@ -56,3 +56,38 @@ func (a *Article) Update(db *gorm.DB) error {
 
 	return db.Model(&a).Where("is_del = ?", 0).Updates(values).Error
 }
+
+// Get articles
+func (a *Article) List(db *gorm.DB, pageOffset, pageSize int) ([]*Article, error) {
+	var articles []*Article
+	var err error
+
+	if pageOffset >= 0 && pageSize > 0 {
+		db = db.Offset(pageOffset).Limit(pageSize) // 跳過幾個，然後取幾個
+	}
+
+	if a.Title != "" {
+		db = db.Where("title = ?", a.Title)
+	}
+
+	db = db.Where("state = ?", a.State)
+	if err = db.Where("is_del = ?", 0).Find(&articles).Error; err != nil {
+		return nil, err
+	}
+	return articles, nil
+}
+
+// Get article count
+func (a *Article) Count(db *gorm.DB) (int64, error) {
+	var count int64
+	if a.Title != "" {
+		db = db.Where("title = ?", a.Title)
+	}
+
+	db = db.Where("state = ?", a.State)
+	err := db.Model(&a).Where("is_del = ?", 0).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}

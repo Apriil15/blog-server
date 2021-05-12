@@ -1,7 +1,12 @@
 package service
 
+import (
+	"github.com/Apriil15/blog-server/internal/model"
+	"github.com/Apriil15/blog-server/pkg/app"
+)
+
 type CountArticleRequest struct {
-	Name  string `form:"name" binding:"max=100"`
+	Title string `form:"title" binding:"max=100"`
 	State uint8  `form:"state,default=1" binding:"oneof=0 1"`
 }
 
@@ -45,4 +50,14 @@ func (s *Service) UpdateArticle(param *UpdateArticleRequest) error {
 // Delete an article
 func (s *Service) DeleteArticle(param *DeleteArticleRequest) error {
 	return s.dao.DeleteArticle(param.ID)
+}
+
+// Get articles
+func (s *Service) GetArticles(param *ArticleListRequest, pager *app.Pager) ([]*model.Article, error) {
+	return s.dao.GetArticles(param.Title, param.State, pager.Page, pager.PageSize)
+}
+
+// Get article count
+func (s *Service) CountArticle(param *CountArticleRequest) (int64, error) {
+	return s.dao.CountArticle(param.Title, param.State)
 }

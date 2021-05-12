@@ -124,4 +124,31 @@ func (a Article) Update(c *gin.Context) {
 // @Router /api/v1/articles/{id} [get]
 func (a Article) Get(c *gin.Context) {}
 
-func (a Article) List(c *gin.Context) {}
+// Get articles
+func (a Article) List(c *gin.Context) {
+	param := service.ArticleListRequest{}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errRsp)
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	pager := app.Pager{Page: app.GetPage(c), PageSize: app.GetPageSize(c)}
+	totalRows, err := svc.CountArticle(&service.CountArticleRequest{Title: param.Title, State: param.State})
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorCountArticleFail)
+		return
+	}
+
+	tags, err := svc.GetArticles(&param, &pager)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorGetArticleListFail)
+		return
+	}
+
+	response.ToResponseList(tags, int(totalRows))
+}
