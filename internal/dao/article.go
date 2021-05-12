@@ -24,6 +24,23 @@ func (d *Dao) CreateArticle(title string, desc string, content string, coverImag
 	return article.Create(d.engine)
 }
 
+// Update an article
+func (d *Dao) UpdateArticle(id uint32, title string, desc string, content string, coverImageUrl string, state uint8, modifiedBy string) error {
+	article := model.Article{
+		Title:         title,
+		Desc:          desc,
+		Content:       content,
+		State:         state,
+		CoverImageUrl: coverImageUrl,
+		Model: &model.Model{
+			ID:         id,
+			ModifiedBy: modifiedBy,
+			ModifiedOn: uint32(time.Now().Unix()),
+		},
+	}
+	return article.Update(d.engine)
+}
+
 // Delete an article
 func (d *Dao) DeleteArticle(id uint32) error {
 	article := model.Article{

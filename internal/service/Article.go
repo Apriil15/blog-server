@@ -21,12 +21,12 @@ type CreateArticleRequest struct {
 
 type UpdateArticleRequest struct {
 	ID            uint32 `form:"id" binding:"required,gte=1"`
-	Title         string `form:"title" binding:"min=1,max=100"`
-	Desc          string `form:"desc" binding:"min=1,max=100"`
+	Title         string `form:"title" binding:"min=0,max=100"`
+	Desc          string `form:"desc" binding:"min=0,max=100"`
 	State         uint8  `form:"state" binding:"required,oneof=0 1"`
-	ModifiedBy    string `form:"modified_by" binding:"required,min=3,max=100"`
-	Content       string `form:"content" binding:"min=1,max=1000"`
-	CoverImageUrl string `form:"cover_image_url" binding:"min=1,max=100"`
+	ModifiedBy    string `form:"modified_by" binding:"required,min=1,max=100"`
+	Content       string `form:"content" binding:"min=0,max=1000"`
+	CoverImageUrl string `form:"cover_image_url" binding:"min=0,max=100"`
 }
 
 type DeleteArticleRequest struct {
@@ -35,6 +35,11 @@ type DeleteArticleRequest struct {
 
 func (s *Service) CreateArticle(param *CreateArticleRequest) error {
 	return s.dao.CreateArticle(param.Title, param.Desc, param.Content, param.CoverImageUrl, param.State, param.CreatedBy)
+}
+
+// Update an article
+func (s *Service) UpdateArticle(param *UpdateArticleRequest) error {
+	return s.dao.UpdateArticle(param.ID, param.Title, param.Desc, param.Content, param.CoverImageUrl, param.State, param.ModifiedBy)
 }
 
 // Delete an article

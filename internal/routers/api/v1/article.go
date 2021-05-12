@@ -92,7 +92,28 @@ func (a Article) Delete(c *gin.Context) {
 // @Failure 400 {object} errcode.Error "請求錯誤"
 // @Failure 500 {object} errcode.Error "內部錯誤"
 // @Router /api/v1/articles/{id} [put]
-func (a Article) Update(c *gin.Context) {}
+func (a Article) Update(c *gin.Context) {
+	param := service.UpdateArticleRequest{
+		ID: convert.StrTo(c.Param("id")).MustInt32(),
+	}
+
+	response := app.NewResponse(c)
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)
+		response.ToErrorResponse(errRsp)
+		return
+	}
+
+	svc := service.New(c.Request.Context())
+	err := svc.UpdateArticle(&param)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorUpdateArticleFail)
+		return
+	}
+
+	response.ToResponse(gin.H{})
+}
 
 // @Summary 取得特定文章
 // @Produce json
