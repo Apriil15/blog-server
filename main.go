@@ -22,7 +22,6 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
-
 }
 
 // @title Blog System
@@ -43,6 +42,7 @@ func main() {
 	s.ListenAndServe()
 }
 
+// Read config file and set global variables
 func setupSetting() error {
 	setting, err := setting.NewSetting()
 	if err != nil {

@@ -20,12 +20,13 @@ type ArticleSwagger struct {
 	Pager *app.Pager
 }
 
+// Get table name of article
 func (a *Article) TableName() string {
 	return "blog_article"
 }
 
+// Create an article
 func (a *Article) Create(db *gorm.DB) error {
-
 	return db.Create(&a).Error
 }
 
