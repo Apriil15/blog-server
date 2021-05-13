@@ -32,22 +32,27 @@ type DeleteTagRequest struct {
 	ID uint32 `form:"id" binding:"required,gte=1"`
 }
 
+// Get count of tag
 func (s *Service) CountTag(param *CountTagRequest) (int64, error) {
 	return s.dao.CountTag(param.Name, param.State)
 }
 
+// Get tags
 func (s *Service) GetTagList(param *TagListRequest, pager *app.Pager) ([]*model.Tag, error) {
 	return s.dao.GetTagList(param.Name, param.State, pager.Page, pager.PageSize)
 }
 
+// Create a tag
 func (s *Service) CreateTag(param *CreateTagRequest) error {
 	return s.dao.CreateTag(param.Name, param.State, param.CreatedBy)
 }
 
+// Update a tag
 func (s *Service) UpdateTag(param *UpdateTagRequest) error {
 	return s.dao.UpdateTag(param.ID, param.Name, param.State, param.ModifiedBy)
 }
 
+// Delete a tag
 func (s *Service) DeleteTag(param *DeleteTagRequest) error {
 	return s.dao.DeleteTag(param.ID)
 }
