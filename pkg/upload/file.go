@@ -33,7 +33,7 @@ func GetFileExtension(name string) string {
 	return path.Ext(name)
 }
 
-// Get upload save path
+// Get upload save path from config
 func GetUploadSavePath() string {
 	return global.AppSetting.UploadSavePath
 }
@@ -44,7 +44,8 @@ func CheckSavePath(destination string) bool {
 	return os.IsNotExist(err)
 }
 
-// Check extension is supported
+// Check extension is supported.
+// return true means extension is valid, false means invalid
 func CheckContainExtension(fileType FileType, name string) bool {
 	extension := GetFileExtension(name)
 	extension = strings.ToUpper(extension) // maybe extension with upper, lower, or mix, so i use ToUpper to uniform
@@ -60,7 +61,8 @@ func CheckContainExtension(fileType FileType, name string) bool {
 	return false
 }
 
-// Check image size
+// Check image size.
+// return true means over maximum size limit
 func CheckMaxSize(fileType FileType, file multipart.File) bool {
 	content, _ := ioutil.ReadAll(file)
 	size := len(content)
