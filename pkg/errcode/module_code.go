@@ -17,3 +17,8 @@ var (
 	ErrorDeleteArticleFail  = NewError(30010004, "刪除文章失敗")
 	ErrorCountArticleFail   = NewError(30010005, "統計文章失敗")
 )
+
+// Error for upload file
+var (
+	ErrorUploadFileUrl = NewError(40010001, "upload file fail")
+)
