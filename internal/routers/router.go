@@ -1,7 +1,10 @@
 package routers
 
 import (
+	"net/http"
+
 	_ "github.com/Apriil15/blog-server/docs"
+	"github.com/Apriil15/blog-server/global"
 	"github.com/Apriil15/blog-server/internal/middleware"
 	"github.com/Apriil15/blog-server/internal/routers/api"
 	v1 "github.com/Apriil15/blog-server/internal/routers/api/v1"
@@ -21,6 +24,7 @@ func NewRouter() *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/auth", v1.GetAuth)
 	r.POST("/upload/file", upload.UploadFile)
+	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 
 	api := r.Group("api/v1")
 	{
