@@ -3,6 +3,7 @@ package routers
 import (
 	_ "github.com/Apriil15/blog-server/docs"
 	"github.com/Apriil15/blog-server/internal/middleware"
+	"github.com/Apriil15/blog-server/internal/routers/api"
 	v1 "github.com/Apriil15/blog-server/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -11,13 +12,15 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
+	article := v1.NewArticle()
+	tag := v1.NewTag()
+	upload := api.NewUpload()
+
 	r.Use(gin.Logger(), gin.Recovery())
 	r.Use(middleware.Translations())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/auth", v1.GetAuth)
-
-	article := v1.NewArticle()
-	tag := v1.NewTag()
+	r.POST("/upload/file", upload.UploadFile)
 
 	api := r.Group("api/v1")
 	{
