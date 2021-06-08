@@ -10,5 +10,5 @@ This is a practice project for web backend development using Golang.
 ## TODO
 
 - ~~upload cover image~~
-- publish to GCP
+- ~~publish to GCP~~
 - Unit Test
