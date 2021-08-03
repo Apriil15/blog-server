@@ -6,9 +6,3 @@ This is a practice project for web backend development using Golang.
 - MySQL
 - JWT
 - Swagger
-
-## TODO
-
-- ~~upload cover image~~
-- ~~publish to GCP~~
-- Unit Test
